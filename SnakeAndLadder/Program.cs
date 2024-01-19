@@ -6,8 +6,9 @@ namespace SnakeLadder
     {
         static void Main()
         {
-            int position = 0;
-            Console.WriteLine($"Player Postion is {position}");
+            Random random = new Random();
+            int value=random.Next(1, 7);
+            Console.WriteLine($"The Player role the dice and he get number {value}");
         }
     }
 }
