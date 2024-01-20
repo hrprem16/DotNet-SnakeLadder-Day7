@@ -1,58 +1,73 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace snake_ladder
+class Program
 {
-    internal class Program
+    static void Main()
     {
-        static void Main(string[] args)
+        // Create two players
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+
+        // Play the game until one player wins
+        while (!player1.HasWon() && !player2.HasWon())
         {
-            int player_pos = 0;
-            int count = 0;
-            Random rand = new Random();
-            while (player_pos < 100)
+            Console.WriteLine($"----- {player1.Name}'s Turn -----");
+            player1.PlayTurn();
+
+            if (player1.HasWon())
             {
-
-                int dice_num = rand.Next(1, 6);
-                count++;
-                int option = rand.Next(1, 3);
-                switch (option)
-                {
-                    case 1: //no play
-                        Console.WriteLine("Position is " + player_pos);
-                        break;
-
-                    case 2:
-
-                        int newPos = player_pos + dice_num;
-                        Console.WriteLine("Position is " + player_pos);
-                        if (newPos > 100)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            player_pos = newPos;
-                        }
-                        break;
-                    case 3:
-                        Console.WriteLine("Position is " + player_pos);
-                        if (player_pos < 0)
-                        {
-                            player_pos = 0;
-                            break;
-                        }
-                        player_pos -= dice_num;
-                        break;
-                }
-
+                Console.WriteLine($"{player1.Name} wins!");
+                break;
             }
-            Console.WriteLine("Dice was rolled " + count + " times");
-            Console.WriteLine("Player Position : " + player_pos);
-            Console.ReadLine();
+
+            Console.WriteLine($"----- {player2.Name}'s Turn -----");
+            player2.PlayTurn();
+
+            if (player2.HasWon())
+            {
+                Console.WriteLine($"{player2.Name} wins!");
+                break;
+            }
         }
+    }
+}
+
+class Player
+{
+    public string Name { get; }
+    private int position;
+
+    public Player(string name)
+    {
+        Name = name;
+        position = 0;
+    }
+
+    public void PlayTurn()
+    {
+        // Roll a die (assuming a 6-sided die)
+        int roll = new Random().Next(1, 7);
+
+        Console.WriteLine($"{Name} rolled a {roll}");
+
+        // Check if the roll results in a ladder
+        if (position + roll <= 100)
+        {
+            position += roll;
+
+            if (position == 100)
+                Console.WriteLine($"{Name} reached the top and won!");
+            else
+                Console.WriteLine($"{Name} climbed to position {position}, play again!");
+        }
+        else
+        {
+            Console.WriteLine($"{Name} stays at position {position}");
+        }
+    }
+
+    public bool HasWon()
+    {
+        return position == 100;
     }
 }
