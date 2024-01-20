@@ -1,67 +1,58 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-class SnakeLadder
+namespace snake_ladder
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
-            // Initialize random number generator
-            Random random = new Random();
-
-            // Player's initial position
-            int playerPosition = 0;
-
-            // Winning position
-            int winningPosition = 100;
-
-            while (playerPosition != winningPosition)
+            int player_pos = 0;
+            int count = 0;
+            Random rand = new Random();
+            while (player_pos < 100)
             {
-                // Roll the die using ((RANDOM))
-                int dieResult = random.Next(1, 7);
 
-                // Check for options: No Play, Ladder, or Snake
-                int option = random.Next(1, 4);
-
+                int dice_num = rand.Next(1, 6);
+                count++;
+                int option = rand.Next(1, 3);
                 switch (option)
                 {
-                    case 1:
-                        // No Play: Player stays in the same position
-                        Console.WriteLine("No Play. Player stays at position " + playerPosition);
+                    case 1: //no play
+                        Console.WriteLine("Position is " + player_pos);
                         break;
+
                     case 2:
-                        // Ladder: Player moves ahead by the number of positions received in the die
-                        if (playerPosition + dieResult <= winningPosition)
+
+                        int newPos = player_pos + dice_num;
+                        Console.WriteLine("Position is " + player_pos);
+                        if (newPos > 100)
                         {
-                            playerPosition += dieResult;
-                            Console.WriteLine("Ladder! Player moves ahead by " + dieResult + " positions. New position: " + playerPosition);
+                            continue;
+                        }
+                        else
+                        {
+                            player_pos = newPos;
                         }
                         break;
                     case 3:
-                        // Snake: Player moves behind by the number of positions received in the die
-                        playerPosition -= dieResult;
-
-                        // Restart from 0 if the player's position goes below 0
-                        if (playerPosition < 0)
-                            playerPosition = 0;
-
-                        Console.WriteLine("Snake! Player moves behind by " + dieResult + " positions. New position: " + playerPosition);
-                        break;
-                    default:
-                        Console.WriteLine("Invalid option");
+                        Console.WriteLine("Position is " + player_pos);
+                        if (player_pos < 0)
+                        {
+                            player_pos = 0;
+                            break;
+                        }
+                        player_pos -= dice_num;
                         break;
                 }
+
             }
-
-            Console.WriteLine("Player reached the exact winning position: " + winningPosition);
+            Console.WriteLine("Dice was rolled " + count + " times");
+            Console.WriteLine("Player Position : " + player_pos);
+            Console.ReadLine();
         }
-
-
     }
 }
-
-
-
-
-
-
